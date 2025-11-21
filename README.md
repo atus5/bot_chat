@@ -1,167 +1,187 @@
-# 📚 DragonFlyBot - Hướng Dẫn Sử Dụng
 
-## 📋 Yêu cầu hệ thống
-- Python 3.8+
-- Windows/Mac/Linux
-- 4GB RAM (tối thiểu)
-- 2GB disk space
+
+# **DragonFlyBot – User Guide**
+
+## **System Requirements**
+
+* Python 3.8+
+* Windows / macOS / Linux
+* Minimum 4GB RAM
+* At least 2GB of free disk space
 
 ---
 
-## 🚀 Hướng dẫn cài đặt & chạy
+## **Installation and Setup**
 
-### **Bước 1: Clone/Tải project**
+### **Step 1: Download or Clone the Project**
+
 ```bash
-cd /đường/dẫn/thư/mục
-# Hoặc tải file zip và giải nén
+cd /path/to/your/folder
+# Or download the ZIP file and extract it
 ```
 
-### **Bước 2: Tạo Virtual Environment**
+### **Step 2: Create a Virtual Environment**
+
+**Windows:**
+
 ```bash
-# Windows
 python -m venv .venv
 .venv\Scripts\activate
+```
 
-# macOS/Linux
+**macOS/Linux:**
+
+```bash
 python -m venv .venv
 source .venv/bin/activate
 ```
 
-### **Bước 3: Cài đặt Dependencies**
+### **Step 3: Install Dependencies**
+
 ```bash
 pip install --upgrade pip
 pip install torch transformers datasets flask flask-cors
 ```
 
-### **Bước 4: Kiểm tra file data.txt**
-- Đảm bảo file data.txt có format đúng:
-```
-User: Câu hỏi 1?
-Bot: Câu trả lời 1
+### **Step 4: Verify data.txt Format**
 
-User: Câu hỏi 2?
-Bot: Câu trả lời 2
+Make sure the file follows this structure:
+
+```
+User: Question 1?
+Bot: Answer 1
+
+User: Question 2?
+Bot: Answer 2
 ```
 
 ---
 
-## 💬 Chạy Chatbot (2 cách)
+## **Running the Chatbot**
 
-### **Cách 1: Chat trực tiếp trong Terminal (Đơn giản)**
+### **Method 1: Run Direct Chat in Terminal**
+
 ```bash
 python chatbot.py
 ```
-**Cách dùng:**
-- Gõ câu hỏi → Enter
-- Bot sẽ trả lời
-- Gõ `exit` hoặc `thoát` để thoát
 
-**Ví dụ:**
+**Usage:**
+
+* Type your question → press Enter
+* Type `exit` or `quit` to stop
+
+**Example:**
+
 ```
-Bạn: Trường Duy Tân ở đâu?
-Bot: Cơ sở chính của Duy Tân nằm ở 254 Nguyễn Văn Linh, Đà Nẵng...
+You: Where is Duy Tan University?
+Bot: The main campus is located at 254 Nguyen Van Linh, Da Nang.
 
-Bạn: thoát
+You: exit
 ```
 
 ---
 
-### **Cách 2: Chạy API Server (Cho ứng dụng)**
+### **Method 2: Run the API Server (for Android or Web Apps)**
 
-**Bước 1: Chạy server**
+**Start the server:**
+
 ```bash
 python server.py
 ```
-Bạn sẽ thấy:
+
+Expected output:
+
 ```
  * Running on http://0.0.0.0:5000
 ```
 
-**Bước 2: Kiểm tra server hoạt động**
+**Test the API:**
 
-Mở terminal khác:
 ```bash
 python test_api.py
 ```
 
-**Bước 3: Gọi từ Android app**
+**Calling from Android (POST request):**
 
-Gửi HTTP POST request:
 ```
 URL: http://your-ip:5000/chat
 Method: POST
-Header: Content-Type: application/json
+Content-Type: application/json
 
 Body:
 {
-  "message": "Trường Duy Tân ở đâu?"
+  "message": "Where is Duy Tan University?"
 }
 ```
 
-**Response:**
+**Response Example:**
+
 ```json
 {
   "success": true,
-  "reply": "Cơ sở chính của Duy Tân nằm ở 254 Nguyễn Văn Linh, Đà Nẵng...",
+  "reply": "The main campus is located at 254 Nguyen Van Linh, Da Nang.",
   "found": true
 }
 ```
 
 ---
 
-## 📁 Cấu trúc File
+## **Project Structure**
 
-| File | Mục đích |
-|------|---------|
-| chatbot.py | Chat trực tiếp với bot |
-| server.py | API server cho Android/Web |
-| data.txt | **Kiến thức của bot** (quan trọng nhất) |
-| train_gpt2.py | Train model (chạy 1 lần) |
-| train_vietnamese.py | Train model Vietnamese (tuỳ chọn) |
+| File                | Description                         |
+| ------------------- | ----------------------------------- |
+| chatbot.py          | Terminal-based chatbot interface    |
+| server.py           | Flask API server                    |
+| data.txt            | Bot knowledge base                  |
+| train_gpt2.py       | Train model (run once)              |
+| train_vietnamese.py | Optional Vietnamese training script |
 
 ---
 
-## ⚙️ Tùy chỉnh
+## **Configuration**
 
-### Thay đổi độ chính xác trả lời
+### Adjust Answer Accuracy
 
-Sửa trong chatbot.py dòng:
+Inside `chatbot.py`:
+
 ```python
 def find_best_match(user_input, threshold=0.70):
 ```
 
-- `threshold=0.70` → Bot chỉ trả lời khi 70% chắc chắn
-- `threshold=0.60` → Dễ dàng trả lời hơn
-- `threshold=0.80` → Khó trả lời hơn, ít sai
+* `0.70` → balanced
+* `0.60` → more flexible
+* `0.80` → more strict
 
-### Thêm câu hỏi/trả lời mới
+### Adding New Q&A
 
-Mở data.txt và thêm:
-```
-User: Câu hỏi mới?
-Bot: Câu trả lời mới
+Edit `data.txt`:
 
 ```
+User: New question?
+Bot: New answer
+```
 
-Lưu file → Bot sẽ sử dụng ngay (không cần restart)
+Save the file — the bot will immediately use the new data.
 
 ---
 
-## 🔗 API Endpoints (cho server.py)
+## **API Endpoints**
 
-| Endpoint | Method | Mô tả |
-|----------|--------|-------|
-| `/` | GET | Kiểm tra server hoạt động |
-| `/health` | GET | Kiểm tra sức khỏe hệ thống |
-| `/info` | GET | Thông tin bot |
-| `/chat` | POST | Chat với bot |
+| Endpoint  | Method | Description                    |
+| --------- | ------ | ------------------------------ |
+| `/`       | GET    | Check if the server is running |
+| `/health` | GET    | System health check            |
+| `/info`   | GET    | Bot information                |
+| `/chat`   | POST   | Send a message to the bot      |
 
-**Ví dụ gọi `/info`:**
+**Example:**
+
 ```bash
 curl http://localhost:5000/info
 ```
 
 Response:
+
 ```json
 {
   "name": "DragonFlyBot",
@@ -173,71 +193,68 @@ Response:
 
 ---
 
-## 🐛 Xử lý lỗi
+## **Troubleshooting**
 
-### Lỗi: `ModuleNotFoundError: No module named 'transformers'`
+### Error: `ModuleNotFoundError: No module named 'transformers'`
+
 ```bash
 pip install transformers
 ```
 
-### Lỗi: `FileNotFoundError: data.txt not found`
-- Đảm bảo file data.txt tồn tại trong thư mục project
+### Error: `data.txt not found`
 
-### Lỗi: Port 5000 đã được sử dụng
-```bash
-# Sửa trong server.py dòng:
-app.run(host="0.0.0.0", port=5001, debug=True)  # Đổi sang 5001
+Make sure the file exists inside the project folder.
+
+### Port 5000 is already in use
+
+Edit in `server.py`:
+
+```python
+app.run(host="0.0.0.0", port=5001, debug=True)
 ```
 
-### Bot trả lời không chính xác
-- Tăng số lượng Q&A trong data.txt
-- Thay đổi `threshold` từ 0.70 → 0.75
+### Bot inaccurate
+
+* Add more Q&A to `data.txt`
+* Adjust threshold (e.g., 0.75)
 
 ---
 
-## 📱 Tích hợp Android
+## **Android Integration**
 
-**Sửa URL trong Android app:**
+**Update URL:**
+
 ```java
-String url = "http://192.168.1.x:5000/chat";  // Thay x = IP của server
+String url = "http://192.168.1.x:5000/chat";
 ```
 
-**Gửi message:**
+**Send request:**
+
 ```java
 JSONObject json = new JSONObject();
-json.put("message", "Trường Duy Tân ở đâu?");
+json.put("message", "Where is Duy Tan University?");
 ```
 
 ---
 
-## ✅ Kiểm tra hoạt động
+## **Verification Checklist**
 
 ```bash
-# 1. Mở terminal 1
-python server.py
-
-# 2. Mở terminal 2
-python test_api.py
-
-# 3. Nếu thấy response JSON → Hoạt động OK ✅
+python server.py      # Terminal 1
+python test_api.py    # Terminal 2
 ```
 
----
-
-## 💡 Tips
-
-- 📌 **Quan trọng nhất:** Cập nhật data.txt với nhiều Q&A chính xác
-- 🔄 Không cần retrain model, chỉ cần edit data.txt
-- 🌐 Để chạy server trên máy khác, dùng IP thực tế thay `localhost`
-- 📊 Càng nhiều Q&A trong data.txt → Bot càng thông minh
+If JSON appears → API is working correctly.
 
 ---
 
-## 📞 Hỗ trợ
+## **Tips**
 
-Nếu có lỗi:
-1. Kiểm tra terminal output
-2. Đảm bảo data.txt format đúng
-3. Cài đặt lại dependencies: `pip install -r requirements.txt`
+* The most important file is `data.txt`
+* No need to retrain after updating Q&A
+* Use real IP instead of `localhost` when accessing from another device
+* More Q&A = better bot performance
 
-Chúc bạn thành công! 🚀
+---
+
+
