@@ -1,0 +1,25 @@
+# Python venv
+.venv/
+env/
+venv/
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Editor
+.vscode/
+.idea/
+
+# Logs & cache
+*.log
+cached_lm_*
+
+# Model & training output
+model/
+output/
+dragonfly_model/
+*.bin
+*.pkl
+*.pickle
+*.model
